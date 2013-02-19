@@ -3,26 +3,26 @@
 namespace Potaka\BbCode\Tag;
 
 /**
- * Description of bold
+ * Description of Italic
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
-class Bold extends SimpleTag {
+class Italic extends SimpleTag {
 
     public function getCloseHtmlTag() {
-        return '</b>';
+        return '</i>';
     }
 
     public function getClosetag() {
-        return '[/b]';
+        return '[/i]';
     }
 
     public function getOpenHtmlTag() {
-        return '<b>';
+        return '<i>';
     }
 
     public function getOpentag() {
-        return '[b]';
+        return '[i]';
     }
 
 }

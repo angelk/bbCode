@@ -9,14 +9,14 @@ namespace Potaka\BbCode;
  */
 class BbCode {
 
-    protected $parsers = array();
+    protected $tags = array();
 
-    public function addTag(bbCode\Tag\Tag $tag) {
-        $this->parsers[] = $tag;
+    public function addTag(Tag\Tag $tag) {
+        $this->tags[] = $tag;
     }
 
-    public function getParsers() {
-        return $this->parsers;
+    public function getTags() {
+        return $this->tags;
     }
 
 }
