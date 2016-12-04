@@ -1,9 +1,11 @@
 {
-	"name": "-",
-	"type": "-",
-	"description": "-",
+	"name": "potaka/bbcode",
+	"type": "library",
+	"description": "php parser for bb code",
+    "license": "MIT",
 	"require": {
-		"phpUnit/phpUnit": "*"
+        "php": ">=7.0",
+		"phpUnit/phpUnit": "5.6.*"
 	},
 	"autoload": {
 		"psr-0": {

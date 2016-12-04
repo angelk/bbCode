@@ -1,5 +1,2 @@
-/nbproject/private/
-/vendor/
 /composer.lock
-/nbproject/
-/tmp/
+/vendor
