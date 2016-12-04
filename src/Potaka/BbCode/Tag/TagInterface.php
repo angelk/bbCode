@@ -6,8 +6,8 @@ namespace Potaka\BbCode\Tag;
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
-interface Tag {
-
+interface TagInterface
+{
     public function format($string);
 
     public function getOpentag();

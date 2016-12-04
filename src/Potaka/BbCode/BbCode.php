@@ -11,7 +11,7 @@ class BbCode {
 
     protected $tags = array();
 
-    public function addTag(Tag\Tag $tag) {
+    public function addTag(Tag\TagInterface $tag) {
         $this->tags[] = $tag;
     }
 

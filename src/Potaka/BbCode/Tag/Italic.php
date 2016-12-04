@@ -7,22 +7,25 @@ namespace Potaka\BbCode\Tag;
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
-class Italic extends SimpleTag {
-
-    public function getCloseHtmlTag() {
+class Italic extends SimpleTag
+{
+    public function getCloseHtmlTag()
+    {
         return '</i>';
     }
 
-    public function getClosetag() {
+    public function getClosetag()
+    {
         return '[/i]';
     }
 
-    public function getOpenHtmlTag() {
+    public function getOpenHtmlTag()
+    {
         return '<i>';
     }
 
-    public function getOpentag() {
+    public function getOpentag()
+    {
         return '[i]';
     }
-
 }
