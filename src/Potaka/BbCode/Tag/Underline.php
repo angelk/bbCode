@@ -12,22 +12,25 @@ namespace Potaka\BbCode\Tag;
  *
  * @author potaka
  */
-class Underline extends SimpleTag {
-
-    public function getOpentag() {
+class Underline extends SimpleTag
+{
+    public function getOpentag() : string
+    {
         return '[u]';
     }
 
-    public function getClosetag() {
+    public function getClosetag() : string
+    {
         return '[/u]';
     }
 
-    public function getOpenHtmlTag() {
+    public function getOpenHtmlTag() : string
+    {
         return '<u>';
     }
 
-    public function getCloseHtmlTag() {
+    public function getCloseHtmlTag() : string
+    {
         return '</u>';
     }
-
 }

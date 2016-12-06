@@ -9,7 +9,7 @@ namespace Potaka\BbCode\Tag;
  */
 abstract class SimpleTag implements TagInterface
 {
-    public function format($string)
+    public function format($string) : string
     {
         $string = (string) $string;
         $openTag = preg_quote($this->getOpenTag(), '#');
@@ -22,11 +22,11 @@ abstract class SimpleTag implements TagInterface
         return $formattedString;
     }
 
-    abstract public function getOpenTag();
+    abstract public function getOpenTag() : string;
 
-    abstract public function getClosetag();
+    abstract public function getClosetag() : string;
 
-    abstract public function getOpenHtmlTag();
+    abstract public function getOpenHtmlTag() : string;
 
-    abstract public function getCloseHtmlTag();
+    abstract public function getCloseHtmlTag() : string;
 }

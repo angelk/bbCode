@@ -9,22 +9,22 @@ namespace Potaka\BbCode\Tag;
  */
 class Italic extends SimpleTag
 {
-    public function getCloseHtmlTag()
+    public function getCloseHtmlTag() : string
     {
         return '</i>';
     }
 
-    public function getClosetag()
+    public function getClosetag() : string
     {
         return '[/i]';
     }
 
-    public function getOpenHtmlTag()
+    public function getOpenHtmlTag() : string
     {
         return '<i>';
     }
 
-    public function getOpentag()
+    public function getOpentag() : string
     {
         return '[i]';
     }

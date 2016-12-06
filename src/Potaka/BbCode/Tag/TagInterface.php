@@ -8,7 +8,5 @@ namespace Potaka\BbCode\Tag;
  */
 interface TagInterface
 {
-    public function format($string);
-
-    public function getOpentag();
+    public function format($string) : string;
 }
