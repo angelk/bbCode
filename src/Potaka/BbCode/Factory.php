@@ -6,6 +6,8 @@ use Potaka\BbCode\Tag\Bold;
 use Potaka\BbCode\Tag\Underline;
 use Potaka\BbCode\Tag\Italic;
 
+use Potaka\BbCode\Tag\Link;
+
 /**
  * Description of Factory
  *
@@ -22,6 +24,7 @@ class Factory
         $bbcode->addTag(new Bold());
         $bbcode->addTag(new Underline());
         $bbcode->addTag(new Italic());
+        $bbcode->addTag(new Link());
         return $bbcode;
     }
 }

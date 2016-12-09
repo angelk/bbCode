@@ -29,4 +29,13 @@ class BbCode
     {
         return $this->tags;
     }
+
+    public function format(string $text) : string
+    {
+        foreach ($this->getTags() as $tag) {
+            $text = $tag->format($text);
+        }
+
+        return $text;
+    }
 }
