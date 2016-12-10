@@ -107,6 +107,8 @@ class Tag
     {
         $tag->setParent($this);
         $this->tags[] = $tag;
+
+        return $this;
     }
 
     /**
@@ -136,5 +138,6 @@ class Tag
     public function setText($text)
     {
         $this->text = $text;
+        return $this;
     }
 }
