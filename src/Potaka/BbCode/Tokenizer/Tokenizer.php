@@ -25,20 +25,21 @@ class Tokenizer
         $currentTag = $this->rootTag;
         while ($curentElement < $textLenght) {
             $currentChar = $text[$curentElement];
-            if ($currentChar === '[') {
+            if ($currentChar === '[' && ($curentElement+1 < $textLenght) && $text[$curentElement+1] !== ']') {
                 // get the close bracket
                 $closeTagFound = false;
                 $tmpPosion = $curentElement;
                 $tagText = '';
-                do {
-                    $tmpPosion++;
+                $tmpPosion++;
+                while ($tmpPosion < $textLenght) {
                     if ($text[$tmpPosion] === ']') {
                         $closeTagFound = true;
                         break;
                     } else {
                         $tagText .= $text[$tmpPosion];
                     }
-                } while ($tmpPosion < $textLenght);
+                    $tmpPosion++;
+                }
 
                 if (false === $closeTagFound) {
                     $bufferText .= $currentChar;

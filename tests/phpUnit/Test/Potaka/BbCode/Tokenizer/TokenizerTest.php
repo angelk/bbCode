@@ -43,7 +43,7 @@ class TokenizerTest extends TestCase
 
     public function testNestedTokenize()
     {
-        $tokenizer = new Potaka\BbCode\Tokenizer\Tokenizer();
+        $tokenizer = new Tokenizer();
         $text = 'w[b]B[u]U[/u][/b]';
         $tokenized = $tokenizer->tokenize($text);
 
@@ -67,12 +67,25 @@ class TokenizerTest extends TestCase
 
     public function testNoTokenizing()
     {
-        $tokenizer = new Potaka\BbCode\Tokenizer\Tokenizer();
+        $tokenizer = new Tokenizer();
         $text = 'asdf';
         $result = $tokenizer->tokenize($text);
         $expected = new Tag('text');
         $expected->addTag(
             (new Tag('text'))->setText('asdf')
+        );
+        $this->assertSameTokenized($expected, $result);
+    }
+
+
+    public function testEmptyTag()
+    {
+        $tokenizer = new Tokenizer();
+        $text = '[]';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag('text');
+        $expected->addTag(
+            (new Tag('text'))->setText('[]')
         );
         $this->assertSameTokenized($expected, $result);
     }
