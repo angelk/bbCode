@@ -64,4 +64,16 @@ class TokenizerTest extends TestCase
 
         $this->assertSameTokenized($expected, $tokenized);
     }
+
+    public function testNoTokenizing()
+    {
+        $tokenizer = new Potaka\BbCode\Tokenizer\Tokenizer();
+        $text = 'asdf';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag('text');
+        $expected->addTag(
+            (new Tag('text'))->setText('asdf')
+        );
+        $this->assertSameTokenized($expected, $result);
+    }
 }

@@ -79,6 +79,12 @@ class Tokenizer
             $curentElement++;
         }
 
+        if ($bufferText) {
+            $tag = new Tag('text');
+            $tag->setText($bufferText);
+            $this->rootTag->addTag($tag);
+        }
+
         return $this->rootTag;
     }
 }
