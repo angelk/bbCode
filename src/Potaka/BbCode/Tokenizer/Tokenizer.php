@@ -9,53 +9,66 @@ namespace Potaka\BbCode\Tokenizer;
  */
 class Tokenizer
 {
-    private $tokens = [];
+    private $rootTag;
+
+    public function __construct()
+    {
+        $this->rootTag = new Tag('text');
+    }
+
 
     public function tokenize($text)
     {
         $curentElement = 0;
         $textLenght = mb_strlen($text);
         $bufferText = '';
-        $openTags = [];
-        $openBraceCount = 0;
+        $currentTag = $this->rootTag;
         while ($curentElement < $textLenght) {
             $currentChar = $text[$curentElement];
             if ($currentChar === '[') {
-                if ($openBraceCount === 0) {
-                    $this->tokens[] = [
-                        'type' => 'text',
-                        'text' => $bufferText,
-                    ];
-                    $bufferText = '';
-                    $openBraceCount++;
+                // get the close bracket
+                $closeTagFound = false;
+                $tmpPosion = $curentElement;
+                $tagText = '';
+                do {
+                    $tmpPosion++;
+                    if ($text[$tmpPosion] === ']') {
+                        $closeTagFound = true;
+                        break;
+                    } else {
+                        $tagText .= $text[$tmpPosion];
+                    }
+                } while ($tmpPosion < $textLenght);
+
+                if (false === $closeTagFound) {
+                    $bufferText .= $currentChar;
+                    $currentChar++;
+                    continue;
                 }
-            } elseif ($currentChar === ']') {
-                if ($bufferText[0] === '/') {
-                    $closeTag = $bufferText;
-                    $element = mb_strcut($bufferText, 1);
-                    // search for corresponding open tag
-                    $tagFound = false;
-                    for ($i = count($openTags) - 1; $i >= 0; $i--) {
-                        if ($openTags[$i]['type'] === $element) {
-                            $tagFound = true;
-                            unset($openTags[$i]);
 
-                            $this->tokens[] = [
-                                [
-                                    'tag' => $element,
-                                ]
-                            ];
-
-                            break;
-                        }
+                $curentElement = $tmpPosion;
+                
+                if ($tagText[0] === '/') {
+                    $tagName = mb_strcut($tagText, 1);
+                    if ($currentTag->getType() === $tagName) {
+                        $tmpTag = new Tag('text');
+                        $tmpTag->setText($bufferText);
+                        $currentTag->addTag($tmpTag);
+                        $currentTag = $currentTag->getParent();
+                    } else {
+                        // ? add to bufferText if fail ?
+                        throw new \Exception("NI");
                     }
                 } else {
-                    $openTag = $bufferText;
-                    $element = $bufferText;
-                    $openTags[] = [
-                        'type' => $openTag,
-                    ];
+                    $tmpTag = new Tag('text');
+                    $tmpTag->setText($bufferText);
+                    $currentTag->addTag($tmpTag);
+
+                    $tmpTag = new Tag($tagText);
+                    $currentTag->addTag($tmpTag);
+                    $currentTag = $tmpTag;
                 }
+                
                 $bufferText = '';
             } else {
                 $bufferText .= $currentChar;
@@ -64,6 +77,64 @@ class Tokenizer
             $curentElement++;
         }
 
-        return $this->tokens;
+        return $this->rootTag;
+    }
+}
+
+class Tag
+{
+    private $tags = [];
+    private $type;
+    private $parent = null;
+    private $text;
+
+    public function __construct($type)
+    {
+        $this->type = $type;
+    }
+
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    public function setParent(Tag $parent)
+    {
+        $this->parent = $parent;
+    }
+
+    public function addTag(Tag $tag)
+    {
+        $tag->setParent($this);
+        $this->tags[] = $tag;
+    }
+
+    /**
+     *
+     * @param bool $reverse
+     * @return Tag[]
+     */
+    public function getTags($reverse = false)
+    {
+        if ($reverse) {
+            return array_reverse($this->tags);
+        }
+
+        return $this->tags;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text)
+    {
+        $this->text = $text;
     }
 }
