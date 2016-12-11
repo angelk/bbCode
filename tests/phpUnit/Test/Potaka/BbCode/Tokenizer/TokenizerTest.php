@@ -101,4 +101,32 @@ class TokenizerTest extends TestCase
         );
         $this->assertSameTokenized($expected, $result);
     }
+
+    public function testNotClosedNestedTag()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'as[d]f[u]r';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag('text');
+        $expected->addTag(
+            (new Tag('text'))->setText('as[d]f[u]r')
+        );
+        $this->assertSameTokenized($expected, $result);
+    }
+
+    public function testUnclosedTagContainingClosedTag()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'as[d]f[u]r[b]B[/b]';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag('text');
+        $expected->addTag(
+            (new Tag('text'))->setText('as[d]f[u]r')
+        )->addTag(
+            (new Tag('b'))->addTag(
+                (new Tag('text'))->setText('B')
+            )
+        );
+        $this->assertSameTokenized($expected, $result);
+    }
 }

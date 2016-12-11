@@ -3,12 +3,13 @@
 namespace Potaka\BbCode\Tokenizer;
 
 /**
- * Description of Tag
- *
  * @author po_taka <angel.koilov@gmail.com>
  */
 class Tag
 {
+    /**
+     * @var Tag[]
+     */
     private $tags = [];
     private $type;
     private $parent = null;
