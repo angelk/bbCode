@@ -38,4 +38,14 @@ class BbCodeTest extends TestCase
     {
         $this->assertBbCodeParsing('[b]B[/b]', '<b>B</b>');
     }
+
+    public function testNestedTagParsing()
+    {
+        $this->assertBbCodeParsing('[b]B[u]U[/u][/b]', '<b>B<u>U</u></b>');
+    }
+
+    public function testParseNotExistingTag()
+    {
+        $this->assertBbCodeParsing('[w]B[/w]', '[w]B[/w]');
+    }
 }
