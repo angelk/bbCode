@@ -8,7 +8,7 @@ class ItalicTest extends PHPUnit_Framework_TestCase
     public function testToHtml()
     {
         $tag = new Potaka\BbCode\Tag\Italic();
-        $bbCode = '[i]i[/i]';
+        $bbCode = 'i';
         $html = $tag->format($bbCode);
         $this->assertEquals($html, '<i>i</i>');
     }

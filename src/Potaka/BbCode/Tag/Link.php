@@ -19,4 +19,9 @@ class Link implements TagInterface
             $string
         );
     }
+
+    public function getName(): string
+    {
+        return 'url';
+    }
 }

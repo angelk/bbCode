@@ -14,18 +14,13 @@ class Italic extends SimpleTag
         return '</i>';
     }
 
-    public function getClosetag() : string
-    {
-        return '[/i]';
-    }
-
     public function getOpenHtmlTag() : string
     {
         return '<i>';
     }
 
-    public function getOpentag() : string
+    public function getTag(): string
     {
-        return '[i]';
+        return 'i';
     }
 }

@@ -2,26 +2,14 @@
 
 namespace Potaka\BbCode\Tag;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Underline
- *
- * @author potaka
+ * @author po_taka
  */
 class Underline extends SimpleTag
 {
-    public function getOpentag() : string
+    public function getTag() : string
     {
-        return '[u]';
-    }
-
-    public function getClosetag() : string
-    {
-        return '[/u]';
+        return 'u';
     }
 
     public function getOpenHtmlTag() : string

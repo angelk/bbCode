@@ -9,4 +9,6 @@ namespace Potaka\BbCode\Tag;
 interface TagInterface
 {
     public function format(string $string) : string;
+
+    public function getName() : string;
 }
