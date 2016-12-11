@@ -19,6 +19,9 @@ class Tag
         $this->type = $type;
     }
 
+    /**
+     * @return Tag|null
+     */
     public function getParent()
     {
         return $this->parent;
@@ -35,6 +38,18 @@ class Tag
         $this->tags[] = $tag;
 
         return $this;
+    }
+
+    public function removeTag($tagToRemove)
+    {
+        foreach ($this->tags as $tagkey => $tag) {
+            if ($tag === $tagToRemove) {
+                unset($this->tags[$tagkey]);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

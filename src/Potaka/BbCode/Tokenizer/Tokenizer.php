@@ -86,6 +86,24 @@ class Tokenizer
             $this->rootTag->addTag($tag);
         }
 
+        $this->handleNotClosedTags($currentTag);
         return $this->rootTag;
+    }
+
+    private function handleNotClosedTags(Tag $tag)
+    {
+        while ($tag->getParent() !== null) {
+            $parent = $tag->getParent();
+            $tagCode = "[{$tag->getType()}]";
+            $curretntTagAsTextTag = new Tag('text');
+            $curretntTagAsTextTag->setText($tagCode);
+            $parent->removeTag($tag);
+            $parent->addTag($curretntTagAsTextTag);
+            foreach ($tag->getTags() as $tagToMove) {
+                $parent->addTag($tagToMove);
+            }
+
+            $tag = $tag->getParent();
+        }
     }
 }

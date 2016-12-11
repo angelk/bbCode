@@ -89,4 +89,16 @@ class TokenizerTest extends TestCase
         );
         $this->assertSameTokenized($expected, $result);
     }
+
+    public function testNotClosedTag()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'as[d]f';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag('text');
+        $expected->addTag(
+            (new Tag('text'))->setText('asd[d]f')
+        );
+        $this->assertSameTokenized($expected, $result);
+    }
 }
