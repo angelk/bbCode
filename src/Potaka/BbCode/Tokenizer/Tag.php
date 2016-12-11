@@ -41,11 +41,17 @@ class Tag
         return $this;
     }
 
-    public function removeTag($tagToRemove)
+    /**
+     * @param Tag $tagToRemove
+     * @return boolean
+     */
+    public function removeTag(Tag $tagToRemove)
     {
         foreach ($this->tags as $tagkey => $tag) {
             if ($tag === $tagToRemove) {
                 unset($this->tags[$tagkey]);
+                // reset keys
+                $this->tags = array_values($this->tags);
                 return true;
             }
         }

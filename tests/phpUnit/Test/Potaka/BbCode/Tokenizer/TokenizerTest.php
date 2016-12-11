@@ -127,6 +127,24 @@ class TokenizerTest extends TestCase
                 (new Tag('text'))->setText('B')
             )
         );
-        $this->assertSameTokenized($expected, $result);
+
+        $expectedFallback = new Tag('text');
+        $expectedFallback->addTag(
+            (new Tag('text'))->setText('as[d]')
+        )->addTag(
+            (new Tag('text'))->setText('f[u]')
+        )->addTag(
+            (new Tag('text'))->setText('r')
+        )->addTag(
+            (new Tag('b'))->addTag(
+                (new Tag('text'))->setText('B')
+            )
+        );
+
+        try {
+            $this->assertSameTokenized($expected, $result);
+        } catch (\Exception $e) {
+            $this->assertSameTokenized($expectedFallback, $result);
+        }
     }
 }
