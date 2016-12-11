@@ -83,7 +83,7 @@ class Tokenizer
         if ($bufferText) {
             $tag = new Tag('text');
             $tag->setText($bufferText);
-            $this->rootTag->addTag($tag);
+            $currentTag->addTag($tag);
         }
 
         $this->handleNotClosedTags($currentTag);
@@ -95,15 +95,59 @@ class Tokenizer
         while ($tag->getParent() !== null) {
             $parent = $tag->getParent();
             $tagCode = "[{$tag->getType()}]";
-            $curretntTagAsTextTag = new Tag('text');
-            $curretntTagAsTextTag->setText($tagCode);
+
             $parent->removeTag($tag);
-            $parent->addTag($curretntTagAsTextTag);
+
+            // if parent last tag is text -> append text
+            $parentTags = $parent->getTags();
+            end($parentTags);
+            $lastParentTag = current($parentTags);
+            if ($lastParentTag->getType() === 'text') {
+                $lastParentTag->setText("{$lastParentTag->getText()}{$tagCode}");
+            } else {
+                $curretntTagAsTextTag = new Tag('text');
+                $curretntTagAsTextTag->setText($tagCode);
+                $parent->addTag($curretntTagAsTextTag);
+            }
+            
             foreach ($tag->getTags() as $tagToMove) {
                 $parent->addTag($tagToMove);
             }
 
             $tag = $tag->getParent();
+            if ($tag !== null) {
+                $this->mergeLastTextTags($tag);
+            }
         }
+    }
+
+    /**
+     * @param Tag $tag
+     * @return boolean
+     */
+    private function mergeLastTextTags(Tag $tag)
+    {
+        $tags = $tag->getTags();
+        if (count($tags) < 2) {
+            return true;
+        }
+
+        end($tags);
+        $lastTag = current($tags);
+
+        if ($lastTag->getType() !== 'text') {
+            return true;
+        }
+
+        prev($tags);
+        $postLastTag = current($tags);
+
+        if ($postLastTag->getType() !== 'text') {
+            return true;
+        }
+
+        $postLastTag->setText("{$postLastTag->getText()}{$lastTag->getText()}");
+        $tag->removeTag($lastTag);
+        return true;
     }
 }

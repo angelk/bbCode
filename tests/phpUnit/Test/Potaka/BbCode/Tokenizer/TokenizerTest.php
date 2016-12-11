@@ -97,7 +97,7 @@ class TokenizerTest extends TestCase
         $result = $tokenizer->tokenize($text);
         $expected = new Tag('text');
         $expected->addTag(
-            (new Tag('text'))->setText('asd[d]f')
+            (new Tag('text'))->setText('as[d]f')
         );
         $this->assertSameTokenized($expected, $result);
     }
