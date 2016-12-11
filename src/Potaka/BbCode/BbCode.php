@@ -33,13 +33,18 @@ class BbCode
         return $this->tags;
     }
 
-    public function format(TokenTag $text) : string
+    public function format(TokenTag $tokenRootTag) : string
     {
-        foreach ($this->getTags() as $tag) {
-            $text = $tag->format($text);
+        $text = $tokenRootTag->getText();
+        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
+
+        foreach ($tokenRootTag->getTags() as $tokenTag) {
+            $text .= $this->format($tokenTag);
         }
 
-        return $text;
+        $textFormatted = $currentBbCodeType->format($text);
+
+        return $textFormatted;
     }
 
     private function getBbCodeTagFromTokenTag(TokenTag $tokenTag) : TagInterface

@@ -11,6 +11,12 @@ class TextTag implements TagInterface
 {
     public function format(string $string): string
     {
+        // @TODO! This is wrong. We need the tagname!
         return $string;
+    }
+
+    public function getName(): string
+    {
+        return 'text';
     }
 }
