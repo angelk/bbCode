@@ -4,6 +4,11 @@ namespace Potaka\BbCode;
 
 use Potaka\BbCode\Tag\TagInterface;
 
+use Potaka\BbCode\Tokenizer\Tag as TokenTag;
+
+use Potaka\BbCode\Tag\TextTag;
+use Potaka\BbCode\Tag\UnknownSimpleType;
+
 /**
  * Description of bbCode
  *
@@ -14,7 +19,8 @@ class BbCode
     /**
      * @var TagInterface[]
      */
-    protected $tags = array();
+    protected $tags = [];
+    private $tokenCacheMap = [];
 
     public function addTag(TagInterface $tag) : self
     {
@@ -30,12 +36,41 @@ class BbCode
         return $this->tags;
     }
 
-    public function format(string $text) : string
+    public function format(TokenTag $tokenRootTag) : string
     {
-        foreach ($this->getTags() as $tag) {
-            $text = $tag->format($text);
+        $text = '';
+        foreach ($tokenRootTag->getTags() as $tokenTag) {
+            $text .= $this->format($tokenTag);
         }
 
-        return $text;
+        $tmpTag = clone $tokenRootTag;
+        $tmpTag->setText($text . $tokenRootTag->getText());
+        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
+        $textFormatted = $currentBbCodeType->format($tmpTag);
+
+        return $textFormatted;
+    }
+
+    private function getBbCodeTagFromTokenTag(TokenTag $tokenTag) : TagInterface
+    {
+        if (array_key_exists($tokenTag->getType(), $this->tags)) {
+            return new $this->tokenCacheMap[$tokenTag];
+        }
+
+        foreach ($this->tags as $tag) {
+            if ($tag->getName() === $tokenTag->getType()) {
+                $this->tokenCacheMap[$tokenTag->getType()] = $tag;
+                return $tag;
+            }
+        }
+
+        if ($tokenTag->getType() === null) {
+            $textTag = new TextTag();
+            $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
+        } else {
+            $textTag = new UnknownSimpleType();
+            $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
+        }
+        return $textTag;
     }
 }

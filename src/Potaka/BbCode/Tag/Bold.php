@@ -15,18 +15,13 @@ class Bold extends SimpleTag
         return '</b>';
     }
 
-    public function getClosetag(): string
-    {
-        return '[/b]';
-    }
-
     public function getOpenHtmlTag(): string
     {
         return '<b>';
     }
 
-    public function getOpentag() : string
+    public function getTag() : string
     {
-        return '[b]';
+        return 'b';
     }
 }

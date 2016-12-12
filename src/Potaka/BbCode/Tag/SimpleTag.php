@@ -2,33 +2,25 @@
 
 namespace Potaka\BbCode\Tag;
 
+use Potaka\BbCode\Tokenizer\Tag as TokenTag;
+
 /**
- * Description of SimpleTag
- *
- * @author po_taka <angel.koilov@gmail.com
+ * @author po_taka <angel.koilov@gmail.com>
  */
 abstract class SimpleTag implements TagInterface
 {
-    public function format(string $string) : string
+    public function format(TokenTag $tokenTag) : string
     {
-        $openTag = preg_quote($this->getOpenTag(), '#');
-        $closeTag = preg_quote($this->getClosetag(), '#');
-        $formattedString = preg_replace("#{$openTag}(.*?){$closeTag}#", "{$this->getOpenHtmlTag()}$1{$this->getCloseHtmlTag()}", $string);
-        if ($formattedString === null) {
-            throw new Exception("{$string} regexp failed");
-        }
-
+        $formattedString = "{$this->getOpenHtmlTag()}{$tokenTag->getText()}{$this->getCloseHtmlTag()}";
         return $formattedString;
     }
 
-    public function getAllowedChars() : string
+    abstract public function getTag() : string;
+
+    public function getName() : string
     {
-        return '.+';
+        return $this->getTag();
     }
-
-    abstract public function getOpenTag() : string;
-
-    abstract public function getClosetag() : string;
 
     abstract public function getOpenHtmlTag() : string;
 
