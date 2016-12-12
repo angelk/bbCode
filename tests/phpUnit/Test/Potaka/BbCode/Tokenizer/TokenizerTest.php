@@ -26,15 +26,15 @@ class TokenizerTest extends TestCase
         $text = 'w[b]z[/b]';
         $tokenized = $tokenizer->tokenize($text);
         
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))
+            (new Tag(null))
                 ->setText('w')
         );
         $expected->addTag(
             (new Tag('b'))
                 ->addTag(
-                    (new Tag('text'))->setText('z')
+                    (new Tag(null))->setText('z')
                 )
         );
 
@@ -47,17 +47,17 @@ class TokenizerTest extends TestCase
         $text = 'w[b]B[u]U[/u][/b]';
         $tokenized = $tokenizer->tokenize($text);
 
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('w')
+            (new Tag(null))->setText('w')
         );
 
         $expected->addTag(
             (new Tag('b'))->addTag(
-                (new Tag('text'))->setText('B')
+                (new Tag(null))->setText('B')
             )->addTag(
                 (new Tag('u'))->addTag(
-                    (new Tag('text'))->setText('U')
+                    (new Tag(null))->setText('U')
                 )
             )
         );
@@ -70,9 +70,9 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer();
         $text = 'asdf';
         $result = $tokenizer->tokenize($text);
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('asdf')
+            (new Tag(null))->setText('asdf')
         );
         $this->assertSameTokenized($expected, $result);
     }
@@ -83,9 +83,9 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer();
         $text = '[]';
         $result = $tokenizer->tokenize($text);
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('[]')
+            (new Tag(null))->setText('[]')
         );
         $this->assertSameTokenized($expected, $result);
     }
@@ -95,9 +95,9 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer();
         $text = 'as[d]f';
         $result = $tokenizer->tokenize($text);
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('as[d]f')
+            (new Tag(null))->setText('as[d]f')
         );
         $this->assertSameTokenized($expected, $result);
     }
@@ -107,9 +107,9 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer();
         $text = 'as[d]f[u]r';
         $result = $tokenizer->tokenize($text);
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('as[d]f[u]r')
+            (new Tag(null))->setText('as[d]f[u]r')
         );
         $this->assertSameTokenized($expected, $result);
     }
@@ -119,25 +119,25 @@ class TokenizerTest extends TestCase
         $tokenizer = new Tokenizer();
         $text = 'as[d]f[u]r[b]B[/b]';
         $result = $tokenizer->tokenize($text);
-        $expected = new Tag('text');
+        $expected = new Tag(null);
         $expected->addTag(
             (new Tag('text'))->setText('as[d]f[u]r')
         )->addTag(
             (new Tag('b'))->addTag(
-                (new Tag('text'))->setText('B')
+                (new Tag(null))->setText('B')
             )
         );
 
-        $expectedFallback = new Tag('text');
+        $expectedFallback = new Tag(null);
         $expectedFallback->addTag(
-            (new Tag('text'))->setText('as[d]')
+            (new Tag(null))->setText('as[d]')
         )->addTag(
-            (new Tag('text'))->setText('f[u]')
+            (new Tag(null))->setText('f[u]')
         )->addTag(
-            (new Tag('text'))->setText('r')
+            (new Tag(null))->setText('r')
         )->addTag(
             (new Tag('b'))->addTag(
-                (new Tag('text'))->setText('B')
+                (new Tag(null))->setText('B')
             )
         );
 
