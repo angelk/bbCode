@@ -22,7 +22,6 @@ class BbCodeTest extends TestCase
         $tokenized = $tokenizer->tokenize($bbCodeString);
         $result = $bbCode->format($tokenized);
         $this->assertSame($html, $result);
-
     }
 
     public function testAddingTag()

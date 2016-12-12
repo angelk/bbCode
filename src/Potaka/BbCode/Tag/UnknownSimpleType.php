@@ -5,15 +5,15 @@ namespace Potaka\BbCode\Tag;
 use Potaka\BbCode\Tokenizer\Tag as TokenTag;
 
 /**
- * Description of TextTag
+ * Description of UnknownSimpleType
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
-class TextTag implements TagInterface
+class UnknownSimpleType implements TagInterface
 {
     public function format(TokenTag $tokenTag) : string
     {
-        $formattedString = "{$tokenTag->getText()}";
+        $formattedString = "[{$tokenTag->getType()}]{$tokenTag->getText()}[/{$tokenTag->getType()}]";
         return $formattedString;
     }
 

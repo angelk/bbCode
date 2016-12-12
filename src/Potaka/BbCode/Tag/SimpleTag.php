@@ -2,14 +2,16 @@
 
 namespace Potaka\BbCode\Tag;
 
+use Potaka\BbCode\Tokenizer\Tag as TokenTag;
+
 /**
  * @author po_taka <angel.koilov@gmail.com>
  */
 abstract class SimpleTag implements TagInterface
 {
-    public function format(string $string) : string
+    public function format(TokenTag $tokenTag) : string
     {
-        $formattedString = "{$this->getOpenHtmlTag()}{$string}{$this->getCloseHtmlTag()}";
+        $formattedString = "{$this->getOpenHtmlTag()}{$tokenTag->getText()}{$this->getCloseHtmlTag()}";
         return $formattedString;
     }
 

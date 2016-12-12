@@ -13,9 +13,8 @@ class Tokenizer
 
     public function __construct()
     {
-        $this->rootTag = new Tag('text');
+        $this->rootTag = new Tag(null);
     }
-
 
     public function tokenize($text)
     {
@@ -53,7 +52,7 @@ class Tokenizer
                     $tagName = mb_strcut($tagText, 1);
                     if ($currentTag->getType() === $tagName) {
                         if ($bufferText !== '') {
-                            $tmpTag = new Tag('text');
+                            $tmpTag = new Tag(null);
                             $tmpTag->setText($bufferText);
                             $currentTag->addTag($tmpTag);
                         }
@@ -63,7 +62,7 @@ class Tokenizer
                         throw new \Exception("NI");
                     }
                 } else {
-                    $tmpTag = new Tag('text');
+                    $tmpTag = new Tag(null);
                     $tmpTag->setText($bufferText);
                     $currentTag->addTag($tmpTag);
 
@@ -81,7 +80,7 @@ class Tokenizer
         }
 
         if ($bufferText) {
-            $tag = new Tag('text');
+            $tag = new Tag(null);
             $tag->setText($bufferText);
             $currentTag->addTag($tag);
         }
@@ -102,10 +101,10 @@ class Tokenizer
             $parentTags = $parent->getTags();
             end($parentTags);
             $lastParentTag = current($parentTags);
-            if ($lastParentTag->getType() === 'text') {
+            if ($lastParentTag->getType() === null) {
                 $lastParentTag->setText("{$lastParentTag->getText()}{$tagCode}");
             } else {
-                $curretntTagAsTextTag = new Tag('text');
+                $curretntTagAsTextTag = new Tag(null);
                 $curretntTagAsTextTag->setText($tagCode);
                 $parent->addTag($curretntTagAsTextTag);
             }
@@ -135,14 +134,14 @@ class Tokenizer
         end($tags);
         $lastTag = current($tags);
 
-        if ($lastTag->getType() !== 'text') {
+        if ($lastTag->getType() !== null) {
             return true;
         }
 
         prev($tags);
         $postLastTag = current($tags);
 
-        if ($postLastTag->getType() !== 'text') {
+        if ($postLastTag->getType() !== null) {
             return true;
         }
 

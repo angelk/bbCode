@@ -15,6 +15,9 @@ class Tag
     private $parent = null;
     private $text;
 
+    /**
+     * @param string|null $type
+     */
     public function __construct($type)
     {
         $this->type = $type;
@@ -73,6 +76,9 @@ class Tag
         return $this->tags;
     }
 
+    /**
+     * @return string|null
+     */
     public function getType()
     {
         return $this->type;
