@@ -10,7 +10,7 @@ use Potaka\BbCode\Tokenizer\Tag as TokenTag;
 class Link implements TagInterface
 {
     const REG_EXP_VALID_URL = 'https?://[a-zA-Z0-9_\-.:/#?]+';
-    const REG_EXP_VALID_NAME = '[^\[]+';
+    const REG_EXP_VALID_NAME = '.+';
 
     public function format(TokenTag $tokenTag): string
     {

@@ -20,7 +20,7 @@ class Tag
      * `http://google.bg` is the argument
      * @var string
      */
-    private $argumen = null;
+    private $argument = null;
 
     /**
      * @param string|null $type
@@ -102,14 +102,14 @@ class Tag
         return $this;
     }
 
-    public function getArgumen()
+    public function getArgument()
     {
-        return $this->argumen;
+        return $this->argument;
     }
 
     public function setArgumen($argumen)
     {
-        $this->argumen = $argumen;
+        $this->argument = $argumen;
         return $this;
     }
 }

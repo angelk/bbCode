@@ -108,8 +108,8 @@ class Tokenizer
         while ($tag->getParent() !== null) {
             $parent = $tag->getParent();
             $tagCode = "[{$tag->getType()}";
-            if ($tag->getArgumen()) {
-                $tagCode .= "={$tag->getArgumen()}";
+            if ($tag->getArgument()) {
+                $tagCode .= "={$tag->getArgument()}";
             }
             $tagCode .= "]";
 

@@ -50,7 +50,11 @@ class BbCodeTest extends TestCase
 
     public function testParseNotClosedTag()
     {
-
         $this->assertBbCodeParsing('[asd', '[asd');
+    }
+
+    public function testParseNotClosedTagWithArgument()
+    {
+        $this->assertBbCodeParsing('a[url=http://google.bg]google', 'a[url=http://google.bg]google');
     }
 }

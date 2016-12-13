@@ -68,7 +68,13 @@ class BbCode
             $textTag = new TextTag();
             $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
         } else {
-            $textTag = new UnknownSimpleType();
+            // convert null to ''
+            if ($tokenTag->getArgument() !== null) {
+                $textTag = new UnknownSimpleType($tokenTag->getArgument());
+            } else {
+                $textTag = new UnknownSimpleType();
+            }
+            
             $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
         }
         return $textTag;
