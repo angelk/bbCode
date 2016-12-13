@@ -3,6 +3,7 @@
 namespace Potaka\BbCode;
 
 use Potaka\BbCode\Tag\TagInterface;
+use Potaka\BbCode\Tag\ArgumentableTagInterface;
 
 use Potaka\BbCode\Tokenizer\Tag as TokenTag;
 
