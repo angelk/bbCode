@@ -164,4 +164,17 @@ class TokenizerTest extends TestCase
 
         $this->assertSameTokenized($expected, $result);
     }
+
+    public function testNotClosedTagWithArgument()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'a[url=http://google.bg]google';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+        $expected->addTag(
+            (new Tag(null))->setText('a[url=http://google.bg]google')
+        );
+
+        $this->assertSameTokenized($expected, $result);
+    }
 }
