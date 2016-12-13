@@ -107,7 +107,11 @@ class Tokenizer
     {
         while ($tag->getParent() !== null) {
             $parent = $tag->getParent();
-            $tagCode = "[{$tag->getType()}]";
+            $tagCode = "[{$tag->getType()}";
+            if ($tag->getArgumen()) {
+                $tagCode .= "={$tag->getArgumen()}";
+            }
+            $tagCode .= "]";
 
             $parent->removeTag($tag);
 
