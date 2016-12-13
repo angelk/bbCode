@@ -47,4 +47,10 @@ class BbCodeTest extends TestCase
     {
         $this->assertBbCodeParsing('[w]B[/w]', '[w]B[/w]');
     }
+
+    public function testParseNotClosedTag()
+    {
+
+        $this->assertBbCodeParsing('[asd', '[asd');
+    }
 }

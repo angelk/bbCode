@@ -41,8 +41,8 @@ class Tokenizer
                 }
 
                 if (false === $closeTagFound) {
-                    $bufferText .= $currentChar;
-                    $currentChar++;
+                    $bufferText .= $currentChar . $tagText;
+                    $curentElement = $tmpPosion;
                     continue;
                 }
 
