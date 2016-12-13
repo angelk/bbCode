@@ -121,7 +121,7 @@ class TokenizerTest extends TestCase
         $result = $tokenizer->tokenize($text);
         $expected = new Tag(null);
         $expected->addTag(
-            (new Tag('text'))->setText('as[d]f[u]r')
+            (new Tag(null))->setText('as[d]f[u]r')
         )->addTag(
             (new Tag('b'))->addTag(
                 (new Tag(null))->setText('B')
@@ -146,5 +146,22 @@ class TokenizerTest extends TestCase
         } catch (\Exception $e) {
             $this->assertSameTokenized($expectedFallback, $result);
         }
+    }
+
+    public function testSimpleTokenizationWithArgument()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'a[url=http://google.bg]google[/url]';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+        $expected->addTag(
+            (new Tag(null))->setText('a')
+        )->addTag(
+            (new Tag('url'))->setArgumen('http://google.bg')->addTag(
+                (new Tag(null))->setText('google')
+            )
+        );
+
+        $this->assertSameTokenized($expected, $result);
     }
 }

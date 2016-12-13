@@ -14,6 +14,13 @@ class Tag
     private $type;
     private $parent = null;
     private $text;
+    /**
+     * Hold tag argument.
+     * [url=http://google.bg]search[/url]
+     * `http://google.bg` is the argument
+     * @var string
+     */
+    private $argumen = null;
 
     /**
      * @param string|null $type
@@ -92,6 +99,17 @@ class Tag
     public function setText($text)
     {
         $this->text = $text;
+        return $this;
+    }
+
+    public function getArgumen()
+    {
+        return $this->argumen;
+    }
+
+    public function setArgumen($argumen)
+    {
+        $this->argumen = $argumen;
         return $this;
     }
 }
