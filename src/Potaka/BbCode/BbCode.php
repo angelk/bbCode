@@ -22,6 +22,8 @@ class BbCode
     protected $tags = [];
     private $tokenCacheMap = [];
 
+    private $allowedChildrenTags = [];
+
     public function addTag(TagInterface $tag) : self
     {
         $this->tags[] = $tag;
@@ -36,8 +38,40 @@ class BbCode
         return $this->tags;
     }
 
-    public function format(TokenTag $tokenRootTag) : string
+    public function addAllowedChildTag(TagInterface $root, TagInterface $child)
     {
+        if (false === array_key_exists($root->getName(), $this->allowedChildrenTags)) {
+            $this->allowedChildrenTags[$root->getName()] = [];
+        }
+
+        if (false === array_search($child, $this->allowedChildrenTags[$root->getName()])) {
+            $this->allowedChildrenTags[$root->getName()][] = $child;
+        }
+
+        return $this;
+    }
+
+    public function getAllowedChildrenTags(TagInterface $tag)
+    {
+        if (false === array_key_exists($tag->getName(), $this->allowedChildrenTags)) {
+            return [];
+        }
+
+        return $this->allowedChildrenTags[$tag->getName()];
+    }
+
+    public function format(TokenTag $tokenRootTag, $allowedTags = null) : string
+    {
+        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
+        $currentElementAllowedTags = $this->getAllowedChildrenTags($currentBbCodeType);
+
+        if ($allowedTags === null) {
+            // get allowedTags from currentBBType
+            $allowedTags = $currentElementAllowedTags;
+        } else {
+            $allowedTags = array_intersect($allowedTags, $currentElementAllowedTags);
+        }
+
         $text = '';
         foreach ($tokenRootTag->getTags() as $tokenTag) {
             $text .= $this->format($tokenTag);
@@ -45,7 +79,6 @@ class BbCode
 
         $tmpTag = clone $tokenRootTag;
         $tmpTag->setText($text . $tokenRootTag->getText());
-        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
         $textFormatted = $currentBbCodeType->format($tmpTag);
 
         return $textFormatted;

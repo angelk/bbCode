@@ -27,4 +27,10 @@ class Link implements TagInterface
     {
         return 'url';
     }
+
+    public function getOriginalText(TokenTag $tokenTag) : string
+    {
+        throw new Exception("Not implemented");
+        return "[url={$tokenTag->getArgument()}]{$tokenTag->getText()}[/url]";
+    }
 }

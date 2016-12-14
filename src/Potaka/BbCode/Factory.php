@@ -21,10 +21,17 @@ class Factory
     public function getFullBbCode()
     {
         $bbcode = new BbCode();
+
+        $bold = new Bold();
         $bbcode->addTag(new Bold());
         $bbcode->addTag(new Underline());
         $bbcode->addTag(new Italic());
-        $bbcode->addTag(new Link());
+
+        $link = new Link;
+        $bbcode->addTag($link);
+
+        $bbcode->addAllowedChildTag($link, $bold);
+
         return $bbcode;
     }
 }

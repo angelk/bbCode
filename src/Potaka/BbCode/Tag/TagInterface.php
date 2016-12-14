@@ -13,4 +13,6 @@ interface TagInterface
     public function format(TokenTag $tokenTag) : string;
 
     public function getName() : string;
+
+    public function getOriginalText(TokenTag $tokenTag) : string;
 }
