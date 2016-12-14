@@ -67,8 +67,9 @@ class Tokenizer
                         }
                         $currentTag = $currentTag->getParent();
                     } else {
-                        // ? add to bufferText if fail ?
-                        throw new \Exception("NI");
+                        $bufferText .= "[{$tagText}]";
+                        $curentElement = $tmpPosion + 1;
+                        continue;
                     }
                 } else {
                     $tmpTag = new Tag(null);
