@@ -50,7 +50,19 @@ class BbCodeTest extends TestCase
 
     public function testParseNotClosedTag()
     {
-
         $this->assertBbCodeParsing('[asd', '[asd');
+    }
+
+    public function testParseNotClosedTagWithArgument()
+    {
+        $this->assertBbCodeParsing('a[url=http://google.bg]google', 'a[url=http://google.bg]google');
+    }
+
+    public function nestedLinkTest()
+    {
+        $this->markTestSkipped("Link is not implemented");
+        $bbcode = (new Factory())->getFullBbCode();
+        $result = $bbcode->format('[url="http://google.bg]asd[b]www[/b][/url]');
+        $this->assertSame('<a href="http://google.bg">asd<b>ww</b></a>', $result);
     }
 }

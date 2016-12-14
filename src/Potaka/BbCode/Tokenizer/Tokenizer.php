@@ -27,6 +27,9 @@ class Tokenizer
             if ($currentChar === '[' && ($curentElement+1 < $textLenght) && $text[$curentElement+1] !== ']') {
                 // get the close bracket
                 $closeTagFound = false;
+                // [tag=argumen]
+                $argumentFound = false;
+                $argumentValue = '';
                 $tmpPosion = $curentElement;
                 $tagText = '';
                 $tmpPosion++;
@@ -34,8 +37,14 @@ class Tokenizer
                     if ($text[$tmpPosion] === ']') {
                         $closeTagFound = true;
                         break;
+                    } elseif ($text[$tmpPosion] === '=') {
+                        $argumentFound = true;
                     } else {
-                        $tagText .= $text[$tmpPosion];
+                        if ($argumentFound) {
+                            $argumentValue .= $text[$tmpPosion];
+                        } else {
+                            $tagText .= $text[$tmpPosion];
+                        }
                     }
                     $tmpPosion++;
                 }
@@ -67,6 +76,11 @@ class Tokenizer
                     $currentTag->addTag($tmpTag);
 
                     $tmpTag = new Tag($tagText);
+
+                    if ($argumentFound) {
+                        $tmpTag->setArgumen($argumentValue);
+                    }
+
                     $currentTag->addTag($tmpTag);
                     $currentTag = $tmpTag;
                 }
@@ -93,7 +107,11 @@ class Tokenizer
     {
         while ($tag->getParent() !== null) {
             $parent = $tag->getParent();
-            $tagCode = "[{$tag->getType()}]";
+            $tagCode = "[{$tag->getType()}";
+            if ($tag->getArgument()) {
+                $tagCode .= "={$tag->getArgument()}";
+            }
+            $tagCode .= "]";
 
             $parent->removeTag($tag);
 

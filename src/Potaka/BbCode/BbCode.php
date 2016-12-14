@@ -3,6 +3,7 @@
 namespace Potaka\BbCode;
 
 use Potaka\BbCode\Tag\TagInterface;
+use Potaka\BbCode\Tag\ArgumentableTagInterface;
 
 use Potaka\BbCode\Tokenizer\Tag as TokenTag;
 
@@ -68,7 +69,13 @@ class BbCode
             $textTag = new TextTag();
             $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
         } else {
-            $textTag = new UnknownSimpleType();
+            // convert null to ''
+            if ($tokenTag->getArgument() !== null) {
+                $textTag = new UnknownSimpleType($tokenTag->getArgument());
+            } else {
+                $textTag = new UnknownSimpleType();
+            }
+            
             $this->tokenCacheMap[$tokenTag->getType()] = $textTag;
         }
         return $textTag;

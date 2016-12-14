@@ -13,7 +13,13 @@ class UnknownSimpleType implements TagInterface
 {
     public function format(TokenTag $tokenTag) : string
     {
-        $formattedString = "[{$tokenTag->getType()}]{$tokenTag->getText()}[/{$tokenTag->getType()}]";
+        $formattedString = "[{$tokenTag->getType()}";
+
+        if ($tokenTag->getArgument()) {
+            $formattedString .= "={$tokenTag->getArgument()}";
+        }
+
+        $formattedString .= "]{$tokenTag->getText()}[/{$tokenTag->getType()}]";
         return $formattedString;
     }
 
