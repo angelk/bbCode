@@ -2,6 +2,8 @@
 
 use PHPUnit\Framework\TestCase;
 
+use Potaka\BbCode\Factory;
+use Potaka\BbCode\Tokenizer\Tokenizer;
 use Potaka\BbCode\Tokenizer\Tag as TokenTag;
 
 use Potaka\BbCode\Tag\Link;
@@ -30,5 +32,13 @@ class LinkTest extends TestCase
         $link = new Link();
         $html = $link->format('[url=http://google.bg]go[url=http://google.bg]og[/url]le[/url]');
         $this->assertSame('[url=http://google.bg]go<a href="http://google.bg">og</a>le[/url]', $html);
+    }
+    public function testLinkWithBoldInisdeTest()
+    {
+        $bbcode = (new Factory())->getFullBbCode();
+        $tokenizer = new Tokenizer();
+        $tokenized = $tokenizer->tokenize('[url=http://google.bg]asd[b]w[/b][/url]');
+        $result = $bbcode->format($tokenized);
+        $this->assertSame('<a href="http://google.bg" target="_blank">asd<b>w</b></a>', $result);
     }
 }
