@@ -3,15 +3,15 @@
 namespace Potaka\BbCode;
 
 use Potaka\BbCode\Tag\TagInterface;
-use Potaka\BbCode\Tag\ArgumentableTagInterface;
 
 use Potaka\BbCode\Tokenizer\Tag as TokenTag;
+use Potaka\BbCode\TagBag\TagBag;
 
 use Potaka\BbCode\Tag\TextTag;
 use Potaka\BbCode\Tag\UnknownSimpleType;
 
 /**
- * Description of bbCode
+ * Format tokens to html
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
@@ -22,6 +22,8 @@ class BbCode
      */
     protected $tags = [];
     private $tokenCacheMap = [];
+
+    private $allowedChildrenTags = [];
 
     public function addTag(TagInterface $tag) : self
     {
@@ -37,17 +39,55 @@ class BbCode
         return $this->tags;
     }
 
-    public function format(TokenTag $tokenRootTag) : string
+    public function addAllowedChildTag(TagInterface $root, TagInterface $child) : self
     {
+        if (false === array_key_exists($root->getName(), $this->allowedChildrenTags)) {
+            $this->allowedChildrenTags[$root->getName()] = [];
+        }
+
+        if (false === array_search($child, $this->allowedChildrenTags[$root->getName()])) {
+            $this->allowedChildrenTags[$root->getName()][] = $child;
+        }
+
+        return $this;
+    }
+
+    public function getAllowedChildrenTags(TagInterface $tag) : array
+    {
+        if (false === array_key_exists($tag->getName(), $this->allowedChildrenTags)) {
+            return [];
+        }
+
+        return $this->allowedChildrenTags[$tag->getName()];
+    }
+
+    public function format(TokenTag $tokenRootTag, TagBag $allowedTags = null) : string
+    {
+        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
+        $currentElementAllowedTags = $this->getAllowedChildrenTags($currentBbCodeType);
+
+        if ($allowedTags === null) {
+            // get allowedTags from currentBBType
+            $allowedTagsForChildren = new TagBag($currentElementAllowedTags);
+            $tagAllowed = true;
+        } else {
+            $tagAllowed = $allowedTags->contains($currentBbCodeType);
+            $allowedTagsForChildren = $allowedTags->intersect($currentElementAllowedTags);
+        }
+
         $text = '';
         foreach ($tokenRootTag->getTags() as $tokenTag) {
-            $text .= $this->format($tokenTag);
+            $text .= $this->format($tokenTag, $allowedTagsForChildren);
         }
 
         $tmpTag = clone $tokenRootTag;
         $tmpTag->setText($text . $tokenRootTag->getText());
-        $currentBbCodeType = $this->getBbCodeTagFromTokenTag($tokenRootTag);
-        $textFormatted = $currentBbCodeType->format($tmpTag);
+
+        if ($tagAllowed) {
+            $textFormatted = $currentBbCodeType->format($tmpTag);
+        } else {
+            $textFormatted = $currentBbCodeType->getOriginalText($tmpTag);
+        }
 
         return $textFormatted;
     }

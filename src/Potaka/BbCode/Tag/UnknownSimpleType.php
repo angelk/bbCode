@@ -27,4 +27,9 @@ class UnknownSimpleType implements TagInterface
     {
         return '';
     }
+
+    public function getOriginalText(TokenTag $tokenTag): string
+    {
+        return "[{$tokenTag->getType()}]{$tokenTag->getText()}[/{$tokenTag->getType()}]";
+    }
 }

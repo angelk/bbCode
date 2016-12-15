@@ -22,6 +22,11 @@ abstract class SimpleTag implements TagInterface
         return $this->getTag();
     }
 
+    public function getOriginalText(TokenTag $tokenTag) : string
+    {
+        return "[{$this->getTag()}]{$tokenTag->getText()}[/{$this->getTag()}]";
+    }
+
     abstract public function getOpenHtmlTag() : string;
 
     abstract public function getCloseHtmlTag() : string;

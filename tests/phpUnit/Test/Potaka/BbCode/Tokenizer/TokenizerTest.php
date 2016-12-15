@@ -114,6 +114,25 @@ class TokenizerTest extends TestCase
         $this->assertSameTokenized($expected, $result);
     }
 
+    public function testWrongOrderOfClosingTags()
+    {
+        $tokenizer = new Tokenizer();
+        $text = '[b]B[u]U[/b][/u]';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+        $expected->addTag(
+            (new Tag(null))->setText('[b]')
+        )->addTag(
+            (new Tag(null))->setText('B')
+        )->addTag(
+            (new Tag('u'))->addTag(
+                (new Tag(null))->setText('U[/b]')
+            )
+        );
+
+        $this->assertSameTokenized($expected, $result);
+    }
+
     public function testUnclosedTagContainingClosedTag()
     {
         $tokenizer = new Tokenizer();

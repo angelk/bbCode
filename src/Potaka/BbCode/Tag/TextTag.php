@@ -21,4 +21,10 @@ class TextTag implements TagInterface
     {
         return '';
     }
+
+    public function getOriginalText(TokenTag $tokenTag): string
+    {
+        // there is nothing special
+        return $this->format($tokenTag);
+    }
 }
