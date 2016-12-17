@@ -29,8 +29,6 @@ The value if `html` is
 <b>bold</b>text<u>under<i>line</i></u>
 ```
 
-Tokenizer do the tokenization :)
-
 # Installation
 ```
 composer require potaka/bbcode
