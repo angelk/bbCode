@@ -11,13 +11,9 @@ class Tokenizer
 {
     private $rootTag;
 
-    public function __construct()
-    {
-        $this->rootTag = new Tag(null);
-    }
-
     public function tokenize($text)
     {
+        $this->rootTag = new Tag(null);
         $curentElement = 0;
         $textLenght = mb_strlen($text);
         $bufferText = '';
