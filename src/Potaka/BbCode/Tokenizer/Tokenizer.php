@@ -15,12 +15,14 @@ class Tokenizer
     {
         $this->rootTag = new Tag(null);
         $curentElement = 0;
-        $textLenght = mb_strlen($text);
+        $textAsArray = preg_split('//u', $text);
+        $textLenght = count($textAsArray);
+        
         $bufferText = '';
         $currentTag = $this->rootTag;
         while ($curentElement < $textLenght) {
-            $currentChar = $text[$curentElement];
-            if ($currentChar === '[' && ($curentElement+1 < $textLenght) && $text[$curentElement+1] !== ']') {
+            $currentChar = $textAsArray[$curentElement];
+            if ($currentChar === '[' && ($curentElement+1 < $textLenght) && $textAsArray[$curentElement+1] !== ']') {
                 // get the close bracket
                 $closeTagFound = false;
                 // [tag=argumen]
@@ -30,16 +32,16 @@ class Tokenizer
                 $tagText = '';
                 $tmpPosion++;
                 while ($tmpPosion < $textLenght) {
-                    if ($text[$tmpPosion] === ']') {
+                    if ($textAsArray[$tmpPosion] === ']') {
                         $closeTagFound = true;
                         break;
-                    } elseif ($text[$tmpPosion] === '=') {
+                    } elseif ($textAsArray[$tmpPosion] === '=') {
                         $argumentFound = true;
                     } else {
                         if ($argumentFound) {
-                            $argumentValue .= $text[$tmpPosion];
+                            $argumentValue .= $textAsArray[$tmpPosion];
                         } else {
-                            $tagText .= $text[$tmpPosion];
+                            $tagText .= $textAsArray[$tmpPosion];
                         }
                     }
                     $tmpPosion++;

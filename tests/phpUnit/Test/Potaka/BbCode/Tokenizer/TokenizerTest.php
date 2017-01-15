@@ -218,4 +218,17 @@ class TokenizerTest extends TestCase
 
         $this->assertSameTokenized($expectedReuse, $resultReuse);
     }
+
+    public function testCyrillicChars()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'удебелен текст';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+        $expected->addTag(
+            (new Tag(null))->setText('удебелен текст')
+        );
+
+        $this->assertSameTokenized($expected, $result);
+    }
 }
