@@ -196,4 +196,26 @@ class TokenizerTest extends TestCase
 
         $this->assertSameTokenized($expected, $result);
     }
+
+    public function testTokenizerReuse()
+    {
+        $tokenizer = new Tokenizer();
+        $text = 'a';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+        $expected->addTag(
+            (new Tag(null))->setText('a')
+        );
+
+        $this->assertSameTokenized($expected, $result);
+
+        $textReuse = 'b';
+        $resultReuse = $tokenizer->tokenize($textReuse);
+        $expectedReuse = new Tag(null);
+        $expectedReuse->addTag(
+            (new Tag(null))->setText('b')
+        );
+
+        $this->assertSameTokenized($expectedReuse, $resultReuse);
+    }
 }

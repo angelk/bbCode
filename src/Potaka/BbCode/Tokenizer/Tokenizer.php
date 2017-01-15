@@ -3,7 +3,7 @@
 namespace Potaka\BbCode\Tokenizer;
 
 /**
- * Description of Tokenizer
+ * Transform text into tokens for bbcode
  *
  * @author po_taka <angel.koilov@gmail.com>
  */
