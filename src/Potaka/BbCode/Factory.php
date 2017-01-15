@@ -7,6 +7,7 @@ use Potaka\BbCode\Tag\Underline;
 use Potaka\BbCode\Tag\Italic;
 
 use Potaka\BbCode\Tag\Link;
+use Potaka\BbCode\Tag\ImgTag;
 
 /**
  * Create different BbCode configurations
@@ -36,6 +37,9 @@ class Factory
         $link = new Link;
         $bbcode->addTag($link);
 
+        $img = new ImgTag();
+        $bbcode->addTag($img);
+
         $unknownTag = new Tag\UnknownSimpleType();
         $bbcode->addTag($unknownTag);
 
@@ -45,6 +49,7 @@ class Factory
             $italic,
             $link,
             $unknownTag,
+            $img,
         ];
 
         // link allowed
@@ -52,6 +57,7 @@ class Factory
         $bbcode->addAllowedChildTag($link, $italic);
         $bbcode->addAllowedChildTag($link, $underline);
         $bbcode->addAllowedChildTag($link, $unknownTag);
+        $bbcode->addAllowedChildTag($link, $img);
 
         $tagsAllowingAnyChild = [
             $bold,
