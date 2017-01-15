@@ -18,6 +18,7 @@ class ImgTagTest extends TestCase
             'http://lorempixel.com/output/abstract-q-c-640-480-2.jpg', // test slash /
             'https://lorempixel.com/output/abstract-q-c-640-480-2.jpg', // ssl test
             'http://www.gravatar.com/avatar/18011762c920a331b9683454b0f2ec70.png?size=300', // test ? and =
+            'http://www.gravatar.com/avatar/ASDF.png?size=300', // uppercase
         ];
 
         foreach ($cases as $testLink) {
