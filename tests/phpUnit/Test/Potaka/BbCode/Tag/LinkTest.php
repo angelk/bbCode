@@ -45,4 +45,13 @@ class LinkTest extends TestCase
         $result = $bbcode->format($tokenized);
         $this->assertSame('<a href="http://google.bg" target="_blank">asd<b>w</b></a>', $result);
     }
+
+    public function testLinkWithImageInside()
+    {
+        $bbcode = (new Factory())->getFullBbCode();
+        $tokenizer = new Tokenizer();
+        $tokenized = $tokenizer->tokenize('[url=http://google.bg][img]http://image.com/image.jpg[/img][/url]');
+        $result = $bbcode->format($tokenized);
+        $this->assertSame('<a href="http://google.bg" target="_blank"><img src="http://image.com/image.jpg" /></a>', $result);
+    }
 }
