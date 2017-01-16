@@ -16,7 +16,7 @@ class ImgTag implements TagInterface
     public function format(TokenTag $tokenTag): string
     {
         $link = $tokenTag->getText();
-        if (!preg_match('!^https?://[a-z0-9-.#?/=]+$!i', $link)) {
+        if (!preg_match('!^https?://[a-z0-9\-@:.,_&+%#?/=]+$!i', $link)) {
             $unknownTag = new UnknownSimpleType();
             return $unknownTag->format($tokenTag);
         }
