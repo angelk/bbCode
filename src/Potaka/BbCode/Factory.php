@@ -9,6 +9,8 @@ use Potaka\BbCode\Tag\Italic;
 use Potaka\BbCode\Tag\Link;
 use Potaka\BbCode\Tag\ImgTag;
 
+use Potaka\BbCode\Tag\YoutubeTag;
+
 /**
  * Create different BbCode configurations
  *
@@ -43,6 +45,9 @@ class Factory
         $unknownTag = new Tag\UnknownSimpleType();
         $bbcode->addTag($unknownTag);
 
+        $youtubeTag = new YoutubeTag();
+        $bbcode->addTag($youtubeTag);
+
         $tags = [
             $bold,
             $underline,
@@ -50,6 +55,7 @@ class Factory
             $link,
             $unknownTag,
             $img,
+            $youtubeTag,
         ];
 
         // link allowed
