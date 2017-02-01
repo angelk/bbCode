@@ -38,6 +38,7 @@ class YoutubeTest extends TestCase
     {
         $cases = [
             'ftp://lorempixel.com/output/abstract-q-c-640-480-2.jpg', // ftp
+            'https://www.youtube.com/watch?v=zur_^B7kw9uM', // ^
         ];
 
         foreach ($cases as $testData) {
