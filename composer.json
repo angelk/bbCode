@@ -4,7 +4,8 @@
 	"description": "php parser for bb code",
     "license": "MIT",
 	"require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "tekstove/url-video-parser": "^1.0.1"
 	},
     "require-dev": {
         "phpUnit/phpUnit": "5.6.*"
