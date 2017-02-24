@@ -231,4 +231,28 @@ class TokenizerTest extends TestCase
 
         $this->assertSameTokenized($expected, $result);
     }
+
+    /**
+     * @see https://github.com/angelk/bbCode/issues/17
+     */
+    public function testInvalidOptions()
+    {
+        $tokenizer = new Tokenizer();
+        $url = 'https://www.facebook.com/permalink.php?story_fbid=1554622461246932&id=121306641245195';
+        $text = 'a[url=' . $url . ']fb[/url]';
+        $result = $tokenizer->tokenize($text);
+        $expected = new Tag(null);
+
+        $urlTag = new Tag('url');
+        $urlTag->setArgumen($url);
+        $urlTag->addTag(
+            (new Tag(null))->setText('fb')
+        );
+
+        $expected->addTag(
+            (new Tag(null))->setText('a')
+        )->addTag($urlTag);
+
+        $this->assertSameTokenized($expected, $result);
+    }
 }

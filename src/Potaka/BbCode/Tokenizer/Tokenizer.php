@@ -35,7 +35,8 @@ class Tokenizer
                     if ($textAsArray[$tmpPosion] === ']') {
                         $closeTagFound = true;
                         break;
-                    } elseif ($textAsArray[$tmpPosion] === '=') {
+                    // for the time being we support only 1 argument
+                    } elseif ($textAsArray[$tmpPosion] === '=' && $argumentFound === false) {
                         $argumentFound = true;
                     } else {
                         if ($argumentFound) {
